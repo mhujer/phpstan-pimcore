@@ -1,0 +1,18 @@
+{
+    "name": "mhujer/phpstan-pimcore-fixture-generator",
+    "description": "Dev-only: generates the Pimcore 12.3 DataObject classes committed under tests/fixtures/classes/12.3/.",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.4",
+        "pimcore/pimcore": "12.3.*"
+    },
+    "config": {
+        "vendor-dir": "vendor-12.3",
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": false,
+            "symfony/runtime": false
+        }
+    }
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<container><parameters><parameter key="pimcore.config" type="collection"><parameter key="models" type="collection"><parameter key="class_overrides" type="collection">
+<parameter key="Pimcore\Model\DataObject\Product">App\Model\RegisteredProduct</parameter>
+<parameter key="Pimcore\Model\DataObject\Category">App\Model\Category</parameter>
+<parameter key="Pimcore\Model\DataObject\Product\Listing">App\Model\ProductListing</parameter>
+<parameter key="Pimcore\Model\Document\Page">App\Model\Page</parameter>
+<parameter key="Pimcore\Model\Asset\Image">App\Model\Image</parameter>
+</parameter></parameter></parameter></parameters></container>

@@ -1,0 +1,60 @@
+<?php
+
+// Loaded only with the complete set of generated Listing stubs. These tags express the generic hierarchy and
+// retain the Dao methods supplied by Pimcore, whose class PHPDocs this stub replaces.
+namespace Doctrine\DBAL\Query { class QueryBuilder {} }
+namespace Pimcore\Model { abstract class AbstractModel {} }
+namespace Pimcore\Model\Listing\Dao { abstract class AbstractDao {} }
+namespace Pimcore\Model\DataObject\Listing { class Dao {} }
+namespace Pimcore\Model\DataObject\Listing\Concrete { class Dao {} }
+
+namespace Pimcore\Model\Listing {
+    /**
+     * @template-covariant TValue = mixed
+     * @implements \Iterator<int, TValue>
+     * @method \Pimcore\Model\Listing\Dao\AbstractDao getDao()
+     * @method \Doctrine\DBAL\Query\QueryBuilder getQueryBuilder()
+     */
+    abstract class AbstractListing extends \Pimcore\Model\AbstractModel implements \Iterator, \Countable {}
+}
+
+namespace Pimcore\Model\Paginator {
+    /**
+     * @template TKey = mixed
+     * @template-covariant TValue = mixed
+     * @extends \Iterator<TKey, TValue>
+     */
+    interface PaginateListingInterface extends \Countable, \Iterator {}
+}
+
+namespace Pimcore\Model\DataObject {
+    /**
+     * @template-covariant TValue of \Pimcore\Model\DataObject = \Pimcore\Model\DataObject
+     * @extends \Pimcore\Model\Listing\AbstractListing<TValue>
+     * @implements \Pimcore\Model\Paginator\PaginateListingInterface<int, TValue>
+     * @method array<TValue> load()
+     * @method array<TValue> getData()
+     * @method TValue|false current()
+     * @method int getTotalCount()
+     * @method int getCount()
+     * @method int[] loadIdList()
+     * @method \Pimcore\Model\DataObject\Listing\Dao getDao()
+     * @method onCreateQueryBuilder(?callable $callback)
+     * @method void addQueryBuilderProcessor(callable $callback)
+     * @method void discardQueryBuilderProcessors()
+     */
+    class Listing extends \Pimcore\Model\Listing\AbstractListing implements \Pimcore\Model\Paginator\PaginateListingInterface {}
+}
+
+namespace Pimcore\Model\DataObject\Listing {
+    /**
+     * @template-covariant TValue of \Pimcore\Model\DataObject\Concrete = \Pimcore\Model\DataObject\Concrete
+     * @extends \Pimcore\Model\DataObject\Listing<TValue>
+     * @method \Pimcore\Model\DataObject\Listing\Concrete\Dao getDao()
+     * @method array<TValue> load()
+     * @method array<TValue> getData()
+     * @method array<TValue> getObjects()
+     * @method TValue|false current()
+     */
+    abstract class Concrete extends \Pimcore\Model\DataObject\Listing {}
+}

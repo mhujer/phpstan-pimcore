@@ -1,0 +1,18 @@
+<container><parameters><parameter key="pimcore.config" type="collection"/></parameters><services>
+  <service id="custom.editorial" class="Symfony\Component\Workflow\Workflow">
+    <argument type="service" id="custom.definition"/><argument>null</argument><argument>null</argument><argument>product_editorial</argument>
+  </service>
+  <service id="custom.definition" class="Symfony\Component\Workflow\Definition">
+    <argument type="collection"><argument>draft</argument><argument>review</argument><argument>published</argument></argument>
+    <argument type="collection"><argument type="service"><service class="Pimcore\Workflow\Transition"><argument>submit</argument></service></argument><argument type="service" id="publish.alias"/></argument>
+  </service>
+  <service id="publish.alias" alias="publish.service"/>
+  <service id="publish.service" class="Symfony\Component\Workflow\Transition"><argument>publish</argument></service>
+  <service id="bundle.workflow" class="Symfony\Component\Workflow\StateMachine">
+    <argument type="service" id="bundle.definition"/><argument>null</argument><argument>null</argument><argument>translation_job_default</argument>
+  </service>
+  <service id="bundle.definition" class="Symfony\Component\Workflow\Definition">
+    <argument type="collection"><argument>translated</argument></argument>
+    <argument type="collection"><argument type="service"><service class="Symfony\Component\Workflow\Transition"><argument>translate</argument></service></argument></argument>
+  </service>
+</services></container>

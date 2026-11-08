@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<container><parameters><parameter key="pimcore.config" type="collection">
+  <parameter key="general" type="collection">
+    <parameter key="valid_languages" type="collection">
+      <parameter>en</parameter><parameter>de</parameter><parameter>de_DE</parameter>
+    </parameter>
+  </parameter>
+  <parameter key="config_location" type="collection">
+    <parameter key="system_settings" type="collection">
+      <parameter key="read_target" type="collection"><parameter key="type">symfony-config</parameter></parameter>
+    </parameter>
+  </parameter>
+</parameter></parameters></container>

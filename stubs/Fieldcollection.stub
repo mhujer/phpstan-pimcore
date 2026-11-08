@@ -1,0 +1,62 @@
+<?php
+
+// PHPStan validates a stub knowing only the stub files, so the classes the Fieldcollection PHPDoc names are
+// declared here too. Without a PHPDoc of their own, they keep Pimcore's.
+
+namespace Pimcore\Model\DataObject\Fieldcollection\Data {
+    abstract class AbstractData
+    {
+    }
+}
+
+namespace Pimcore\Model\DataObject\Fieldcollection {
+    class Dao
+    {
+    }
+}
+
+namespace Pimcore\Model {
+    class DataObject extends \Pimcore\Model\DataObject\AbstractObject {}
+}
+
+namespace Pimcore\Model\DataObject {
+    class AbstractObject {}
+
+    class Concrete extends \Pimcore\Model\DataObject
+    {
+    }
+
+    /**
+     * Iterating gives the items, keyed by their int position. Pimcore declares
+     * current() as TItem|false and key() as ?int, which only matter past the end.
+     *
+     * This PHPDoc replaces Pimcore's, so the magic methods Pimcore declares on
+     * the class (forwarded to the Dao) are declared again below.
+     *
+     * @template TItem of \Pimcore\Model\DataObject\Fieldcollection\Data\AbstractData
+     *
+     * @implements \Iterator<int, TItem>
+     *
+     * @method array{saveFieldcollectionRelations?: true, saveLocalizedRelations?: true} delete(\Pimcore\Model\DataObject\Concrete $object, bool $saveMode = false)
+     * @method \Pimcore\Model\DataObject\Fieldcollection\Dao getDao()
+     * @method array<TItem> load(\Pimcore\Model\DataObject\Concrete $object)
+     */
+    class Fieldcollection implements \Iterator
+    {
+        /**
+         * @param TItem $item
+         */
+        public function add(\Pimcore\Model\DataObject\Fieldcollection\Data\AbstractData $item): void
+        {
+        }
+
+        /**
+         * @param array<TItem> $items
+         *
+         * @return $this
+         */
+        public function setItems(array $items): static
+        {
+        }
+    }
+}

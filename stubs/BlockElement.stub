@@ -1,0 +1,17 @@
+<?php
+
+namespace Pimcore\Model\DataObject\Data;
+
+/** @template-covariant TData = mixed */
+class BlockElement
+{
+    /** @param TData $data */
+    public function __construct(string $name, string $type, mixed $data)
+    {
+    }
+
+    /** @return TData */
+    public function getData(): mixed
+    {
+    }
+}

@@ -1,0 +1,90 @@
+# Rules. Include together with extension.neon, which declares the parameters.
+services:
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\Toggles
+        arguments:
+            additionalToggles: %pimcore.additionalToggles%
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\ToggleCallCollector
+        tags:
+            - phpstan.collector
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\ToggleScopeCollector
+        tags:
+            - phpstan.collector
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\ToggleNotRestoredRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\UnknownFieldNameRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\InterpolatedConditionRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\ElementLookupArgumentsRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\ListenerWiringRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\ConditionPlaceholdersRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\ListingArgumentsRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\UnknownValuesKeyRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\CacheKeyRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\SelectOptionRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\CacheKeyCallCollector
+        tags:
+            - phpstan.collector
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\CacheKeyPairCollector
+        tags:
+            - phpstan.collector
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\CacheKeyMismatchRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\InvalidElementKeyRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\UnknownDefinitionNameRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\ClassOverrideRegistrationRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\LanguageArgumentRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\ListenerWiringCollector
+        tags:
+            - phpstan.collector
+    -
+        class: Mhujer\PHPStan\Pimcore\Rules\WorkflowNamesRule
+        tags:
+            - phpstan.rules.rule

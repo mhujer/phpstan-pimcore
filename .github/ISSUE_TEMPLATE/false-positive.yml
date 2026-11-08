@@ -1,0 +1,45 @@
+name: False positive
+description: PHPStan with this extension reports an error, or infers a type, that's wrong for your code.
+labels: ["false positive"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The maintainer can't see your project, so a report needs a small, self-contained reproduction. The quickest way to get one is to let your coding agent (Claude Code, Codex, Cursor, …) write it. Run it in your project with this prompt, fill in the error, and paste its output below:
+
+        ```text
+        PHPStan with the mhujer/phpstan-pimcore extension reports an error that I believe is a false positive (or the extension infers a wrong type). Write a bug report for the extension's maintainer, who can't see this project.
+
+        The error: <paste the PHPStan error with its file, line and identifier>
+
+        1. Check that it really is a false positive: read the code and the Pimcore classes it touches, and explain why the code is correct at runtime. If the error is valid, stop and tell me instead of writing a report.
+        2. Collect the versions of mhujer/phpstan-pimcore, phpstan/phpstan and pimcore/pimcore from composer.lock, and the PHP version. Copy the `pimcore` parameters from the PHPStan config, and note whether class definitions (var/classes) and a Container XML are in use.
+        3. Build the smallest reproduction: a self-contained PHP snippet that triggers the same error, plus only the parts of the class definition (var/classes/definition_*.php) and the generated class (var/classes/DataObject/*.php) that it needs. Leave out unrelated fields and methods. If the Container XML is involved, quote only the elements that matter.
+        4. If you can, check the reproduction: put it in a temporary file, run PHPStan on it and confirm the same error, then delete the file. Leave the project as it was.
+        5. Anonymise everything: replace project, class, field and other business names with neutral ones (Product, Category, name, …). Never include secrets, credentials, hostnames or other values from the Container XML or .env files.
+
+        Write the report in Markdown with these sections: Error, Why it's a false positive, Versions, Configuration, Reproduction, Expected (what PHPStan should report instead: nothing, or the correct type).
+
+        Don't change any code and don't open the issue yourself. Output only the report, so I can copy it into the issue.
+        ```
+  - type: textarea
+    id: report
+    attributes:
+      label: Report
+      description: The agent's report, or the same sections written by hand.
+      placeholder: |
+        ## Error
+        ## Why it's a false positive
+        ## Versions
+        ## Configuration
+        ## Reproduction
+        ## Expected
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy
+      options:
+        - label: I checked the report contains no secrets or names I don't want to share.
+          required: true

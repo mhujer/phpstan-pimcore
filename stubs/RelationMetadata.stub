@@ -1,0 +1,40 @@
+<?php
+
+namespace Pimcore\Model\Element {
+    interface ElementInterface {}
+}
+
+namespace Pimcore\Model\DataObject\Data\ObjectMetadata {
+    class Dao {}
+}
+
+namespace Pimcore\Model\DataObject\Data\ElementMetadata {
+    class Dao {}
+}
+
+namespace Pimcore\Model\DataObject\Data {
+    /**
+     * @template TElement of \Pimcore\Model\DataObject\Concrete = \Pimcore\Model\DataObject\Concrete
+     * @template TColumn of string = string
+     * @method \Pimcore\Model\DataObject\Data\ObjectMetadata\Dao getDao()
+     */
+    class ObjectMetadata
+    {
+        /** @return TElement|null */
+        public function getObject() {}
+
+        /** @return TElement|null */
+        public function getElement() {}
+    }
+
+    /**
+     * @template TElement of \Pimcore\Model\Element\ElementInterface = \Pimcore\Model\Element\ElementInterface
+     * @template TColumn of string = string
+     * @method \Pimcore\Model\DataObject\Data\ElementMetadata\Dao getDao()
+     */
+    class ElementMetadata
+    {
+        /** @return TElement|null */
+        public function getElement() {}
+    }
+}

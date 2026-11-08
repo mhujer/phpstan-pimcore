@@ -1,0 +1,37 @@
+parameters:
+    secret: synthetic-fixture-secret
+framework:
+    secret: synthetic-fixture-secret
+doctrine:
+    dbal:
+        url: 'mysql://fixture:fixture@127.0.0.1/fixture'
+security:
+    firewalls:
+        main:
+            security: false
+pimcore:
+    models:
+        class_overrides:
+            Pimcore\Model\DataObject\Product: App\Model\Product
+    general:
+        valid_languages: [en, de]
+    workflows:
+        product_editorial:
+            label: Product editorial
+            supports: [Pimcore\Model\DataObject\Product]
+            places:
+                draft:
+                    label: Draft
+                review:
+                    label: Review
+                published:
+                    label: Published
+            transitions:
+                submit:
+                    from: draft
+                    to: review
+                    options: { label: Submit }
+                publish:
+                    from: review
+                    to: published
+                    options: { label: Publish }

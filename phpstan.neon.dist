@@ -1,0 +1,18 @@
+parameters:
+    level: max
+    # Our own stubs, so this code sees the template types they declare.
+    stubFiles:
+        - stubs/Fieldcollection.stub
+        - stubs/Localizedfield.stub
+    paths:
+        - src
+        - tests
+    excludePaths:
+        - tests/fixtures
+        - tests/Type/data
+        - tests/Type/data-with-definitions
+        - tests/Type/data-with-conflicting-definitions
+        - tests/Rules/data
+        - tests/Type/calls
+        # Class overrides of the generated classes, which only the tests autoload.
+        - tests/Type/Fixtures

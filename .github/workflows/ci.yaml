@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '0 4 * * 1'
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: curl, dom, exif, fileinfo, gd, iconv, intl, mbstring, openssl, pdo_mysql, simplexml, zip, zlib
+          coverage: none
+
+      - run: composer validate --strict
+
+      - uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: highest
+
+      - run: composer ecs
+
+  tests:
+    name: PHP ${{ matrix.php }}, Pimcore ${{ matrix.pimcore }}, ${{ matrix.dependencies }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: '8.3'
+            pimcore: '12.3'
+            constraint: '^12.3'
+            dependencies: lowest
+          - php: '8.4'
+            pimcore: '12.3'
+            constraint: '^12.3'
+            dependencies: highest
+          - php: '8.4'
+            pimcore: '2026'
+            constraint: '^2026.3'
+            dependencies: lowest
+          - php: '8.5'
+            pimcore: '2026'
+            constraint: '^2026.3'
+            dependencies: highest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl, dom, exif, fileinfo, gd, iconv, intl, mbstring, openssl, pdo_mysql, simplexml, zip, zlib
+          coverage: none
+
+      - name: Pin the Pimcore line
+        run: composer require --dev "pimcore/pimcore:${{ matrix.constraint }}" --no-update
+
+      - uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: ${{ matrix.dependencies }}
+
+      - run: composer phpstan
+
+      - run: composer test

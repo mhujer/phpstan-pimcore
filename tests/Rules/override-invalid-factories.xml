@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<container><parameters><parameter key="pimcore.config" type="collection"><parameter key="models" type="collection"><parameter key="class_overrides" type="collection">
+<parameter key="Pimcore\Model\DataObject\Product\Listing">stdClass</parameter>
+<parameter key="Pimcore\Model\Document\Page">App\Model\MissingPage</parameter>
+<parameter key="Pimcore\Model\Asset\Image">stdClass</parameter>
+<parameter key="App\Unused">App\Missing</parameter>
+</parameter></parameter></parameter></parameters></container>

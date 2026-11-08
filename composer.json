@@ -1,0 +1,72 @@
+{
+    "name": "mhujer/phpstan-pimcore",
+    "description": "PHPStan extension for Pimcore",
+    "type": "phpstan-extension",
+    "license": "MIT",
+    "keywords": ["phpstan", "pimcore", "static analysis"],
+    "homepage": "https://github.com/mhujer/phpstan-pimcore",
+    "authors": [
+        {
+            "name": "Martin Hujer",
+            "email": "mail@martinhujer.cz"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/mhujer/phpstan-pimcore/issues",
+        "source": "https://github.com/mhujer/phpstan-pimcore"
+    },
+    "require": {
+        "php": "^8.3",
+        "ext-simplexml": "*",
+        "phpstan/phpstan": "^2.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.0",
+        "pimcore/pimcore": "^12.3 || ^2026.3",
+        "slevomat/coding-standard": "^8.31",
+        "symfony/polyfill-php85": "^1.33",
+        "symplify/easy-coding-standard": "^13.3"
+    },
+    "conflict": {
+        "pimcore/pimcore": "<12.3 || >=2026.0,<2026.3"
+    },
+    "replace": {
+        "paragonie/random_compat": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mhujer\\PHPStan\\Pimcore\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mhujer\\PHPStan\\Pimcore\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "ecs": "ecs check",
+        "phpstan": "phpstan analyse --no-progress",
+        "test": "phpunit",
+        "check": [
+            "@ecs",
+            "@phpstan",
+            "@test"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": false,
+            "symfony/runtime": false,
+            "dealerdirect/phpcodesniffer-composer-installer": false
+        }
+    },
+    "extra": {
+        "phpstan": {
+            "includes": [
+                "extension.neon",
+                "rules.neon"
+            ]
+        }
+    }
+}

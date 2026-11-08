@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<container><parameters><parameter key="pimcore.config" type="collection"><parameter key="models" type="collection"><parameter key="class_overrides" type="collection">
+<parameter key="Pimcore\Model\DataObject\Product">App\Model\MissingProduct</parameter>
+<parameter key="Pimcore\Model\DataObject\Category">stdClass</parameter>
+</parameter></parameter></parameter></parameters></container>

@@ -1,0 +1,18 @@
+<container>
+  <parameters>
+    <parameter key="pimcore.config" type="collection">
+      <parameter key="models" type="collection"><parameter key="class_overrides" type="collection">
+        <parameter key="Pimcore\Model\Document\Page">Mhujer\PHPStan\Pimcore\Tests\Type\Fixtures\SubtypePageOverride</parameter>
+        <parameter key="Pimcore\Model\Asset\Image">Mhujer\PHPStan\Pimcore\Tests\Type\Fixtures\SubtypeImageOverride</parameter>
+      </parameter></parameter>
+    </parameter>
+    <parameter key="pimcore.documents.classes.map" type="collection">
+      <parameter key="page">\Pimcore\Model\Document\Page</parameter>
+      <parameter key="snippet">\Pimcore\Model\Document\Snippet</parameter>
+    </parameter>
+    <parameter key="pimcore.assets.classes.map" type="collection">
+      <parameter key="image">\Pimcore\Model\Asset\Image</parameter>
+      <parameter key="text">\Pimcore\Model\Asset\Text</parameter>
+    </parameter>
+  </parameters>
+</container>

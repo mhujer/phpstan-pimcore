@@ -1,0 +1,45 @@
+<?php
+
+declare(strict_types=1);
+
+namespace CacheKeyConcatenation;
+
+use Pimcore\Cache;
+
+final class CachedMenu
+{
+    private const string KEY = 'menu';
+
+    public function localized(string $locale): void
+    {
+        $data = Cache::load($locale . self::KEY);
+        if (!$data) {
+            $data = ['rebuilt'];
+            Cache::save(key: self::KEY, data: $data);
+        }
+    }
+
+    public function reverse(string $locale): void
+    {
+        $data = Cache::load(self::KEY);
+        Cache::save($data, self::KEY . $locale);
+    }
+
+    public function matching(string $locale): void
+    {
+        $data = Cache::load($locale . self::KEY);
+        Cache::save($data, $locale . self::KEY);
+    }
+
+    public function equalConstants(): void
+    {
+        $data = Cache::load('' . self::KEY);
+        Cache::save($data, self::KEY);
+    }
+
+    public function unrelated(string $first, string $second): void
+    {
+        $data = Cache::load($first);
+        Cache::save($data, $second);
+    }
+}

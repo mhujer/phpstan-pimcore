@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<container xmlns="http://symfony.com/schema/dic/services">
+  <parameters><parameter key="pimcore.config" type="collection"/></parameters>
+  <services>
+    <service id="abstract" class="ListenerXml\Listener" abstract="true"/>
+    <service id="factory" class="ListenerXml\Listener"><factory service="builder" method="build"/></service>
+    <service id="legacy.factory" class="ListenerXml\Listener" factory-class="Builder"/>
+    <service id="unresolved" class="%env(LISTENER_CLASS)%"/>
+    <service id="cycle.a" alias="cycle.b"/>
+    <service id="cycle.b" alias="cycle.a"/>
+    <service id="inherited" class="ListenerXmlInherited\ChildListener"/>
+    <service id="other.inherited" class="ListenerXmlInherited\OtherListener"/>
+    <service id="listener" class="ListenerXml\Listener"/>
+    <service id="listener.alias" alias="listener"/>
+    <service id="class.attributed" class="ListenerXmlDeclarations\ClassAttributed"/>
+    <service id="attributed" class="ListenerXmlDeclarations\Attributed"/>
+    <service id="subscribed" class="ListenerXmlDeclarations\Subscribed"/>
+    <service id="security.event_dispatcher.main">
+      <call method="addListener"><argument>pimcore.dataobject.postAdd</argument><argument type="collection"><argument type="service_closure" id="listener"/><argument>update</argument></argument></call>
+    </service>
+    <service id="debug.event_dispatcher">
+      <call method="addListener"><argument>pimcore.dataobject.postUpdate</argument><argument type="collection"><argument type="service_closure" id="class.attributed"/><argument>update</argument></argument></call>
+      <call method="addListener"><argument>pimcore.dataobject.postAdd</argument><argument type="collection"><argument type="service_closure" id="subscribed"/><argument>update</argument></argument></call>
+
+      <call method="addListener"><argument>pimcore.dataobject.postUpdate</argument><argument type="collection"><argument type="service_closure" id="inherited"/><argument>update</argument></argument></call>
+      <call method="addListener"><argument>pimcore.dataobject.postUpdate</argument><argument type="collection"><argument type="service_closure" id="other.inherited"/><argument>update</argument></argument></call>
+
+      <call method="addListener"><argument>pimcore.dataobject.postAdd</argument><argument type="collection"><argument type="service_closure" id="abstract"/><argument>update</argument></argument></call>
+      <call method="addListener"><argument>pimcore.dataobject.postAdd</argument><argument type="collection"><argument type="service_closure" id="factory"/><argument>update</argument></argument></call>
+      <call method="addListener"><argument>pimcore.dataobject.postAdd</argument><argument type="collection"><argument type="service_closure" id="legacy.factory"/><argument>update</argument></argument></call>
+      <call method="addListener"><argument>pimcore.dataobject.postAdd</argument><argument type="collection"><argument type="service_closure" id="missing"/><argument>update</argument></argument></call>
+      <call method="addListener"><argument>pimcore.dataobject.postAdd</argument><argument type="collection"><argument type="service_closure" id="unresolved"/><argument>update</argument></argument></call>
+      <call method="addListener"><argument>pimcore.dataobject.postAdd</argument><argument type="collection"><argument type="service_closure" id="cycle.a"/><argument>update</argument></argument></call>
+
+      <call method="addListener">
+        <argument>pimcore.dataobject.postUpdate</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="listener.alias"/>
+          <argument>update</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener"><argument>pimcore.dataobject.postUpdate</argument><argument type="collection"><argument type="service_closure" id="attributed"/><argument>update</argument></argument><argument>0</argument></call>
+      <call method="addListener"><argument>pimcore.dataobject.postUpdate</argument><argument type="collection"><argument type="service_closure" id="subscribed"/><argument>update</argument></argument><argument>0</argument></call>
+      <call method="addListener"><argument>app.unknown</argument><argument type="collection"><argument type="service" id="listener"/><argument>update</argument></argument></call>
+      <call method="addListener"><argument>pimcore.dataobject.postAdd</argument><argument type="collection"><argument type="service" id="listener"/><argument>missing</argument></argument></call>
+    </service>
+  </services>
+</container>

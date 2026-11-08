@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+    App\Fixture\YamlListener:
+        tags:
+            - { name: kernel.event_listener, event: pimcore.dataobject.preUpdate, method: onUpdate }
+    App\Fixture\AttributeListener: ~
+    App\Fixture\Subscriber: ~

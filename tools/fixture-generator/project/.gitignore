@@ -1,0 +1,5 @@
+/var/*
+!/var/config/
+/var/config/*
+!/var/config/needs-install.lock
+/config/reference.php

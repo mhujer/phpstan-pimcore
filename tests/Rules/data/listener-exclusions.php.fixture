@@ -1,0 +1,70 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ListenerExclusions;
+
+use Pimcore\Event\DataObjectEvents;
+use Pimcore\Event\Model\AssetEvent;
+use Pimcore\Event\Model\DataObjectEvent;
+use Pimcore\Event\Model\ElementEventInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Contracts\EventDispatcher\Event;
+
+final class Listener
+{
+    #[AsEventListener(event: DataObjectEvents::POST_UPDATE)]
+    public function untyped($event): void
+    {
+        unset($event);
+    }
+
+    #[AsEventListener(event: DataObjectEvents::POST_UPDATE)]
+    public function union(AssetEvent|DataObjectEvent $event): void
+    {
+        unset($event);
+    }
+
+    #[AsEventListener(event: DataObjectEvents::POST_UPDATE)]
+    public function supertype(ElementEventInterface $event): void
+    {
+        unset($event);
+    }
+
+    #[AsEventListener(event: DataObjectEvents::POST_UPDATE)]
+    public function broad(Event $event): void
+    {
+        unset($event);
+    }
+
+    #[AsEventListener(event: DataObjectEvents::POST_UPDATE)]
+    public function noParameter(): void
+    {
+    }
+
+    #[AsEventListener(event: 'unknown')]
+    public function unknown(AssetEvent $event): void
+    {
+        unset($event);
+    }
+
+    #[AsEventListener(event: DYNAMIC_EVENT)]
+    public function dynamic(DataObjectEvent $event): void
+    {
+        unset($event);
+    }
+
+    #[AsEventListener(event: 'kernel.request')]
+    public function kernel(AssetEvent $event): void
+    {
+        unset($event);
+    }
+
+    #[AsEventListener(event: 'pimcore.cache.core.init')]
+    public function generic(AssetEvent $event): void
+    {
+        unset($event);
+    }
+}
+
+define('ListenerExclusions\\DYNAMIC_EVENT', getenv('PIMCORE_LISTENER_EVENT'));

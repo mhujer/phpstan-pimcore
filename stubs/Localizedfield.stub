@@ -1,0 +1,39 @@
+<?php
+
+// PHPStan validates a stub knowing only the stub files, so the classes the Localizedfield PHPDoc names are
+// declared here too (Concrete and the fieldcollection item base are in Fieldcollection.stub). Without a PHPDoc of
+// their own, they keep Pimcore's.
+
+namespace Pimcore\Model\DataObject\Localizedfield {
+    class Dao
+    {
+    }
+}
+
+namespace Pimcore\Model\DataObject\Objectbrick\Data {
+    abstract class AbstractData
+    {
+    }
+}
+
+namespace Pimcore\Model\DataObject {
+    /**
+     * TOwner is the generated class whose localized fields these are. It lets
+     * getLocalizedValue() be typed as the owner's getter. Defaults to object, so
+     * a bare Localizedfield needs no type argument.
+     *
+     * This PHPDoc replaces Pimcore's, so the magic methods Pimcore declares on
+     * the class (forwarded to the Dao) are declared again below.
+     *
+     * @template-covariant TOwner of object = object
+     *
+     * @method void createUpdateTable(array<mixed> $params = [])
+     * @method bool delete(bool $deleteQuery = true, bool $isUpdate = true)
+     * @method \Pimcore\Model\DataObject\Localizedfield\Dao getDao()
+     * @method void load(\Pimcore\Model\DataObject\Concrete|\Pimcore\Model\DataObject\Fieldcollection\Data\AbstractData|\Pimcore\Model\DataObject\Objectbrick\Data\AbstractData $object, array<mixed> $params = [])
+     * @method void save(array<mixed> $params = [])
+     */
+    final class Localizedfield
+    {
+    }
+}

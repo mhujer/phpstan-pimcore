@@ -1,0 +1,313 @@
+parameters:
+    pimcore:
+        classDefinitionDirectory: null
+        containerXmlPath: null
+        additionalToggles: []
+
+    stubFiles:
+        - stubs/Fieldcollection.stub
+        - stubs/Localizedfield.stub
+        - stubs/RelationMetadata.stub
+        - stubs/BlockElement.stub
+
+parametersSchema:
+    pimcore: structure([
+        classDefinitionDirectory: schema(
+            string(),
+            nullable(),
+            assert('Mhujer\PHPStan\Pimcore\ClassDefinition\ClassDefinitionDirectory::isValidParameter', 'directory exists'),
+        ),
+        containerXmlPath: schema(
+            string(),
+            nullable(),
+            assert('Mhujer\PHPStan\Pimcore\ContainerXml\ContainerXmlReader::isValidParameter', 'file exists'),
+        ),
+        additionalToggles: listOf(structure([
+            class: string(),
+            methods: listOf(string()),
+        ])),
+    ])
+
+expandRelativePaths:
+    - '[parameters][pimcore][classDefinitionDirectory]'
+    - '[parameters][pimcore][containerXmlPath]'
+
+services:
+    -
+        class: Mhujer\PHPStan\Pimcore\Listing\ListingStubDependenciesRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Mhujer\PHPStan\Pimcore\Listing\ListingStubFilesExtension
+        arguments:
+            tmpDir: %tmpDir%
+        tags:
+            - phpstan.stubFilesExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\ContainerXml\ContainerXmlDiagnose
+        tags:
+            - phpstan.diagnoseExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\ContainerXml\ContainerXmlReader
+        arguments:
+            path: %pimcore.containerXmlPath%
+    -
+        class: Mhujer\PHPStan\Pimcore\ContainerXml\ContainerXmlCache
+        tags:
+            - phpstan.resultCacheValueExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\FinderMethodsClassReflectionExtension
+        tags:
+            - phpstan.broker.methodsClassReflectionExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\FinderReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\ListingReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\GenericGetterReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\AbstractObject
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\GenericGetterReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Objectbrick
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\GenericGetterReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Objectbrick\Data\AbstractData
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\GenericGetterReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Fieldcollection\Data\AbstractData
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\GenericGetterReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Localizedfield
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\ObjectbrickReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Concrete
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\ObjectbrickReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Objectbrick
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\ClassDefinition\ClassDefinitionReader
+        arguments:
+            classDefinitionDirectory: %pimcore.classDefinitionDirectory%
+            currentWorkingDirectory: %currentWorkingDirectory%
+            parser: @currentPhpVersionSimpleDirectParser
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\SelectReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Concrete
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\SelectReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Objectbrick\Data\AbstractData
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\SelectReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Fieldcollection\Data\AbstractData
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\FieldcollectionReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\ScopedCallbackReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Service
+            method: useInheritedValues
+            callbackPosition: 1
+        tags:
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\ScopedCallbackReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\Version\CoauthorContextInterface
+            method: withCoauthor
+            callbackPosition: 2
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\ElementLookupReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\CopyReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\Element\Service
+            method: cloneMe
+            sourcePosition: 0
+        tags:
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\CopyReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Service
+            method: copyAsChild
+            sourcePosition: 1
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\FolderCreationReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\ElementSubtypeReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\AbstractObject
+            subtypes: [object, variant, folder]
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\ElementSubtypeReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\User\AbstractUser
+            subtypes: [user, userfolder, role, rolefolder]
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\ElementSubtypeReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\Document
+            mapParameter: pimcore.documents.classes.map
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\ElementSubtypeReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\Asset
+            mapParameter: pimcore.assets.classes.map
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\MetadataMethodsClassReflectionExtension
+        tags:
+            - phpstan.broker.methodsClassReflectionExtension
+    - Mhujer\PHPStan\Pimcore\Type\RelationElementTypeResolver
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\MetadataReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Concrete
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\MetadataReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Objectbrick\Data\AbstractData
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\MetadataReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Fieldcollection\Data\AbstractData
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\BlockReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Concrete
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\BlockReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Objectbrick\Data\AbstractData
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\BlockReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Fieldcollection\Data\AbstractData
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\RegisteredClassOverrides
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\OverrideLoadReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\AbstractObject
+        tags:
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\OverrideLoadReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\Document
+        tags:
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\OverrideLoadReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\Asset
+        tags:
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\OverrideRelationReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Concrete
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\OverrideRelationReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Objectbrick\Data\AbstractData
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\OverrideRelationReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Fieldcollection\Data\AbstractData
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\CalculatedValueReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Concrete
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\CalculatedValueReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Objectbrick\Data\AbstractData
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\CalculatedValueReturnTypeExtension
+        arguments:
+            declaringClass: Pimcore\Model\DataObject\Fieldcollection\Data\AbstractData
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: Mhujer\PHPStan\Pimcore\Type\CalculatorIgnoreErrorExtension
+        tags:
+            - phpstan.ignoreErrorExtension

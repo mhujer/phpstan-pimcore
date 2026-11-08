@@ -1,0 +1,88 @@
+<?php
+
+declare(strict_types=1);
+
+namespace CacheKeyAmbiguous;
+
+use Pimcore\Cache;
+use Pimcore\Cache\Core\CoreCacheHandler;
+
+function multipleLoads(bool $reload): void
+{
+    $data = Cache::load('first');
+    if ($reload) {
+        $data = Cache::load('second');
+    }
+    Cache::save($data, 'third');
+}
+
+function conditionalLoad(bool $load): void
+{
+    if ($load) {
+        $data = Cache::load('first');
+    }
+    Cache::save($data, 'second');
+}
+
+function saveFirst(mixed $data): void
+{
+    Cache::save($data, 'first');
+    $data = Cache::load('second');
+}
+
+function nestedClosure(): void
+{
+    $data = Cache::load('first');
+    $callback = static function () use ($data): void {
+        Cache::save($data, 'second');
+    };
+    $callback();
+}
+
+function referenceAlias(): void
+{
+    $data = Cache::load('first');
+    $alias =& $data;
+    $alias = Cache::load('second');
+    Cache::save($data, 'second');
+}
+
+function referenceClosure(): void
+{
+    $data = Cache::load('first');
+    $reload = static function () use (&$data): void {
+        $data = Cache::load('second');
+    };
+    $reload();
+    Cache::save($data, 'second');
+}
+
+function dynamicWrite(string $name): void
+{
+    $data = Cache::load('first');
+    $$name = 'replacement';
+    Cache::save($data, 'second');
+}
+
+function changedKey(string $key, string $locale): void
+{
+    $data = Cache::load($locale . $key);
+    $key = $locale . $key;
+    Cache::save($data, $key);
+}
+
+function unsetValue(): void
+{
+    $data = Cache::load('first');
+    unset($data);
+    Cache::save($data, 'second');
+}
+
+function handler(CoreCacheHandler $cache): void
+{
+    $data = $cache->load('first');
+    $cache->save('second', $data);
+}
+
+$data = Cache::load('first');
+Cache::save($data, 'second');
